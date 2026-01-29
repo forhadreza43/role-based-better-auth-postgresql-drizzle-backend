@@ -37,8 +37,6 @@ export const auth = betterAuth({
          image: {
             type: 'string',
             required: false,
-            defaultValue:
-               'https://res.cloudinary.com/dqs6k0so6/image/upload/v1769692289/profile_eguhty.png',
             input: true,
          },
       },
