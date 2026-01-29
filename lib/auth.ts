@@ -2,6 +2,7 @@ import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { db } from '../src/db/db'; // your drizzle instance
 import * as schema from '../src/db/schema/auth-schema'; // your drizzle schema
+import { oAuthProxy } from 'better-auth/plugins';
 
 export const auth = betterAuth({
    secret: process.env.BETTER_AUTH_SECRET!,
@@ -10,9 +11,21 @@ export const auth = betterAuth({
       provider: 'pg', // or "mysql", "sqlite"
       schema, // optional, defaults to "public"
    }),
+
    emailAndPassword: {
       enabled: true,
    },
+
+   // social login
+   baseURL: process.env.BETTER_AUTH_URL,
+   socialProviders: {
+      google: {
+         prompt: 'select_account',
+         clientId: process.env.GOOGLE_CLIENT_ID as string,
+         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      },
+   },
+
    user: {
       additionalFields: {
          role: {
@@ -23,4 +36,11 @@ export const auth = betterAuth({
          },
       },
    },
+
+   plugins: [
+      oAuthProxy({
+         productionURL: process.env.BETTER_AUTH_URL, //production backend URL
+         currentURL: process.env.BETTER_AUTH_URL, //development backend URL
+      }),
+   ],
 });
