@@ -24,6 +24,13 @@ GOOGLE_CLIENT_SECRET=Your client secret
 
 ```
 
+frontend env:
+
+```text
+BETTER_AUTH_SECRET=your secret
+BACKEND_URL=backend URL of your app
+```
+
 To run:
 
 ```bash
